@@ -116,6 +116,36 @@ namespace QuickSort
 
 } // QuickSort
 
+namespace HeapSort
+{
+    // heapInsert过程，将所给的位置的数，如果其比父节点大则往上移动
+    void heapInsert(vector<int> nums, int index)
+    {
+        //如果当前数比父亲节点大，则循环，直到比它小或者到了根部，此时index = 0,(index -1)/2 = 0,条件不满足也会结束循环
+        while (nums[index] > nums[(index - 1) / 2])
+        {
+            swap(nums[index], nums[(index - 1) / 2]);
+            index = (index - 1) / 2;
+        }
+    }
+    //当一个大根堆的某个节点被替换掉时候，将其重新变成大根堆的过程
+    void heapify(vector<int> nums, int index, int heapSize)
+    {
+        int left = index * 2 + 1; //其左孩子的节点
+
+        //如果其有左孩子则开始循环
+        while (left < heapSize)
+        {
+            //先找到左右孩子当中最大的那一个
+            int biggest = (nums[left] < nums[left + 1]) && (left + 1 < heapSize) ? (left + 1) : left;
+            if (nums[biggest] <= nums[index])
+            {
+                break;
+            }
+        }
+    }
+
+} // HeapSort
 //打印数组
 void printVec(const vector<int> &nums)
 {
@@ -128,8 +158,11 @@ void printVec(const vector<int> &nums)
 
 int main()
 {
-    vector<int> nums = {3, 3, 3, 3, 1, 1, 1};
-    InsertSort::sort(nums);
+    vector<int> nums = {6, 3, 5, 2, 3, 4};
+    for (int i = 0; i < nums.size(); i++)
+    {
+        HeapSort::heapInsert(nums, i);
+    }
     printVec(nums);
     return 0;
 }
